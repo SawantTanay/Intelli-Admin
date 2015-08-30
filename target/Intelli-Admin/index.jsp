@@ -8,5 +8,7 @@
 </head>
 <body>
 index page
+
+<a href="getFirstAction">Click Here</a>
 </body>
 </html>

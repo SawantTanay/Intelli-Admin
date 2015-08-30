@@ -8,8 +8,8 @@
 	<constant name="struts.devMode" value="true" />
 
 	<package name="default" namespace="/" extends="struts-default">
-		<action name="getFirstAction" class="src.main.java.com.test.FirstAction">
-			<result name="SUCCESS">/index.jsp</result>
+		<action name="getFirstAction" class="com.test.FirstAction">
+			<result name="success">/Success.jsp</result>
 		</action> 
 	</package>
 
