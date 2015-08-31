@@ -9,6 +9,6 @@
 <body>
 index page
 
-<a href="getFirstAction">Click Here</a>
+<a href="selectRegion">Click Here</a>
 </body>
 </html>

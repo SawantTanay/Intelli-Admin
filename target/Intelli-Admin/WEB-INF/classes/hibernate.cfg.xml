@@ -10,7 +10,7 @@
 
    <!-- Assume test is the database name -->
    <property name="hibernate.connection.url">
-      jdbc:mysql://localhost/Tanay
+      jdbc:mysql://localhost/DataPool
    </property>
       <property name="hibernate.connection.driver_class">
       com.mysql.jdbc.Driver
@@ -28,24 +28,16 @@
 
    <!-- List of XML mapping files -->
    
-   <!-- <mapping class="com.test.hibernateproj.Employee"/> -->
-   <!-- <mapping class="com.test.hibernateproj.UserDetails"/>  -->
-<!--    <mapping class="com.test.hibernateproj.ProxyUserDetails"></mapping>
-   <mapping class="com.test.hibernateproj.Vehicle"></mapping>
-   <mapping class="com.test.hibernateproj.Friends"></mapping>
-   <mapping class="com.test.hibernateproj.RentedVehicle"></mapping> 
-	<mapping class="com.test.hibernateproj.BaseVehicle"></mapping>
-<mapping class="com.test.hibernateproj.TwoWheeler"></mapping>
-<mapping class="com.test.hibernateproj.FourWheeler"></mapping> 
-
-<mapping class="com.test.hibernateproj.Animal"></mapping>
-<mapping class="com.test.hibernateproj.Mammals"></mapping>
-<mapping class="com.test.hibernateproj.Reptiles"></mapping> 
-<mapping class="com.test.hibernateproj.CarDetails"/> 
-<mapping class="com.test.hibernateproj.EmployeeDetailsHQL"/> -->
-
-<!-- <mapping class="com.test.hibernateproj.EmployeeProjection"></mapping> -->
-<mapping class="com.selfstudy.model.Passenger"></mapping>
+<mapping class="com.intelliswift.beans.RetailerConfigs"></mapping>
+		<mapping class="com.intelliswift.beans.Products"></mapping>
+		<mapping class="com.intelliswift.beans.Price"></mapping>
+		<mapping class="com.intelliswift.beans.ProductURL"></mapping>
+		<mapping class="com.intelliswift.beans.Sizes"></mapping>
+		<mapping class="com.intelliswift.beans.Colors"></mapping>
+		<mapping class="com.intelliswift.beans.InStock"></mapping>
+		<mapping class="com.intelliswift.beans.AlternateImage"></mapping>
+		<mapping class="com.intelliswift.beans.Category"></mapping>
+		<mapping class="com.intelliswift.beans.SiteLog"></mapping>
 
 </session-factory>
 </hibernate-configuration>

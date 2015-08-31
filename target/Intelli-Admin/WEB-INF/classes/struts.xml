@@ -11,6 +11,10 @@
 		<action name="getFirstAction" class="com.test.FirstAction">
 			<result name="success">/Success.jsp</result>
 		</action> 
+		
+		<action name="selectRegion" class="com.intelli.action.RegionAction">
+			<result name="success">/SelectRegion.jsp</result>
+		</action>
 	</package>
 
 </struts>
