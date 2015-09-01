@@ -8,12 +8,23 @@
 	<constant name="struts.devMode" value="true" />
 
 	<package name="default" namespace="/" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		
 		<action name="getFirstAction" class="com.test.FirstAction">
 			<result name="success">/Success.jsp</result>
-		</action> 
-		
-		<action name="selectRegion" class="com.intelli.action.RegionAction" method="getRegionList">
+		</action>
+
+		<action name="selectRegion" class="com.intelli.action.RegionAction"
+			method="getRegionList">
 			<result name="success">/SelectRegion.jsp</result>
+		</action>
+
+		<action name="getSite" class="com.intelli.action.RegionAction"
+			method="getSiteList">
+			<result type="json" name="success"></result>
+			<param name="excludeProperties">allRegionList</param>
 		</action>
 	</package>
 

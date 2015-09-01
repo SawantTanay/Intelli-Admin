@@ -37,8 +37,8 @@ public class RegionAction extends ActionSupport
     }
 
     public RegionAction() {
+       
         allSiteList = new ArrayList<String>();
-        
     }
     
     public List<String> getAllRegionList()
@@ -63,18 +63,23 @@ public class RegionAction extends ActionSupport
 
     public String getRegionList() {
         allRegionList = new ArrayList<String>();
-        List<RetailerConfigs> myList = HibernateService.getList();
+       
+        List<RetailerConfigs> myList = HibernateService.getList("RetailerConfigs.all");
         Iterator<RetailerConfigs> iterator = myList.iterator();
         while(iterator.hasNext()){
             RetailerConfigs rc = iterator.next();
             allRegionList.add(rc.getLocale());
         }
-        System.out.println(region);
         return SUCCESS;
     }
     
     public String getSiteList() {
-        
+        List<RetailerConfigs> myList = HibernateService.getList("RetailerConfigs.locale",region);
+        Iterator<RetailerConfigs> iterator = myList.iterator();
+        while(iterator.hasNext()){
+            RetailerConfigs rc = iterator.next();
+            allSiteList.add(rc.getSiteName());
+        }
         return SUCCESS;
     }
 }
