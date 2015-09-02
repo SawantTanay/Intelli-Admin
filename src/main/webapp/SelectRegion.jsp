@@ -10,21 +10,27 @@
 $(document).ready(function(){
 	$('#Locale').change(function() {
 		var reg = $('#Locale').val();
-		console.log("Locale ID");
-		console.log(reg);
 		$.ajax({
 			type:'POST',
 			url: 'getSite',
 			data : "region="+reg,
 			success : function(result) {
-				console.log(result);
-				$.each(result, function(i,value){
-					console.log(value);
-					$('#Site').append(value);
+				console.log("===>"+result.length);
+				var allSiteList = result.allSiteList;
+				var select = $('#Site').empty();
+				select.removeAttr('disabled');
+				select.append('<option value="-1">--Select Site--</option>')
+				$.each(allSiteList,function(i,v) {
+					select.append('<option value="'+i+'">'+v+'</option>');
 				});
 			}
 		
 		});
+	});
+	
+	$("#Site").change(function(){
+		var s = $('#Site :selected').text();
+		
 	});
 });
 </script>
@@ -33,8 +39,8 @@ $(document).ready(function(){
 </head>
 <body>
 	<s:select id="Locale" list="allRegionList" name="region" headerKey="-1"
-		headerValue="---Select Region---" onchange=""></s:select>
+		headerValue="---Select Region---"></s:select>
 	<s:select id="Site" list="allSiteList" name="site" headerKey="-1"
-		headerValue="---Select Site--"></s:select>
+		headerValue="---Select Site--" disabled="true"></s:select>
 </body>
 </html>

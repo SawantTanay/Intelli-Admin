@@ -24,7 +24,7 @@
 		<action name="getSite" class="com.intelli.action.RegionAction"
 			method="getSiteList">
 			<result type="json" name="success"></result>
-			<param name="excludeProperties">allRegionList</param>
+			<param name="excludeProperties">allRegionList,region</param>
 		</action>
 	</package>
 
