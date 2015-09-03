@@ -26,6 +26,13 @@
 			<result type="json" name="success"></result>
 			<param name="excludeProperties">allRegionList,region</param>
 		</action>
+		
+		
+		<action name="getSiteDetailedInfo" class="com.intelli.action.RegionAction"
+			method="getSiteDetailedInfo">
+			<result type="json" name="success"></result>
+			<param name="excludeProperties">allRegionList,region</param>
+		</action>
 	</package>
 
 </struts>

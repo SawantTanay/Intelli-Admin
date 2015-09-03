@@ -16,6 +16,7 @@ $(document).ready(function(){
 			data : "region="+reg,
 			success : function(result) {
 				console.log("===>"+result.length);
+				$("#Site").show();
 				var allSiteList = result.allSiteList;
 				var select = $('#Site').empty();
 				select.removeAttr('disabled');
@@ -23,14 +24,47 @@ $(document).ready(function(){
 				$.each(allSiteList,function(i,v) {
 					select.append('<option value="'+i+'">'+v+'</option>');
 				});
+			},
+			error : function (xhr,status,error) {
+				
 			}
 		
 		});
 	});
 	
 	$("#Site").change(function(){
-		var s = $('#Site :selected').text();
+		var siteName = $('#Site :selected').text();
+		console.log("#Site Changed.....");
+		$.ajax({
+			type: 'POST',
+			url: 'getSiteDetailedInfo',
+			data : "site="+siteName,
+			success : function (result) {
+				$("#SiteTable").show();
+				$("#siteDetail").empty();
+				$("#Locale").fadeOut(2000);$("#Site").fadeOut(2000);
+				var siteInfo = result.siteInfo;
+				var res = siteInfo.split(";");
+				$("#siteDetail").append("<tr><th>Retailer</th><th>Site</th><th>Domain</th><th>Region</th></tr><tr>")
+				$.each(res,function(i,value){
+					$("#siteDetail").append("<td align=\"center\">"+value+"</td>");
+				});
+				$("#siteDetail").append("</tr>");
+				
+				var importInfo = result.importList;
+				$("#SiteImport").empty();
+				$("#SiteImport").append("<tr><th>Import Date</th><th>Product Count</th></tr>");
+				$.each(importInfo, function(i,value){
+					var record = value.split(";");
+					$("#SiteImport").append("<tr><td>"+record[0]+"</td><td>"+record[1]+"</td></tr>");
+				});
+			}
+		});
 		
+	});
+	
+	$("#backImage").click(function() {
+		window.location.href='selectRegion';
 	});
 });
 </script>
@@ -38,9 +72,30 @@ $(document).ready(function(){
 <title>Select The Region</title>
 </head>
 <body>
-	<s:select id="Locale" list="allRegionList" name="region" headerKey="-1"
-		headerValue="---Select Region---"></s:select>
-	<s:select id="Site" list="allSiteList" name="site" headerKey="-1"
-		headerValue="---Select Site--" disabled="true"></s:select>
+
+	<center>
+		<s:select id="Locale" list="allRegionList" name="region"
+			headerKey="-1" headerValue="---Select Region---"></s:select>
+		<s:select id="Site" list="allSiteList" name="site" headerKey="-1"
+			headerValue="---Select Site--" style='display:none'></s:select>
+		<br> <br>
+		<div class="siteTableData" id="SiteTable" style='display: none'
+			cellpadding="50" width="50" height="50">
+			<div id="backImage" style="float: left">
+				<img src="back.jpg" alt="Hello" style="margin-left: 15%;">
+			</div>
+			<table id="siteDetail" border="1">
+			</table>
+		</div>
+	</center>
+	<p>
+	
+	<div id="ImportLogs">
+		<h3></h3>
+		<table id="SiteImport" border="1">
+
+		</table>
+	</div>
+	</p>
 </body>
 </html>

@@ -23,6 +23,7 @@ public class HibernateService
     public static List getList(String Namedquery,String param) {
         Session session = HibernateUtility.buildSessionFactory();
         session.beginTransaction();
+        System.out.println(Namedquery+"==="+param);
         Query query = session.getNamedQuery(Namedquery);
         query.setString(0, param);
         return query.list();
