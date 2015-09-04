@@ -41,6 +41,7 @@ $(document).ready(function(){
 			data : "site="+siteName,
 			success : function (result) {
 				$("#SiteTable").show();
+				$(".attributeLinks").show();
 				$("#siteDetail").empty();
 				$("#Locale").fadeOut(2000);$("#Site").fadeOut(2000);
 				var siteInfo = result.siteInfo;
@@ -53,10 +54,11 @@ $(document).ready(function(){
 				
 				var importInfo = result.importList;
 				$("#SiteImport").empty();
-				$("#SiteImport").append("<tr><th>Import Date</th><th>Product Count</th></tr>");
+				$("#SiteImport").append("<tr><th>Import Date</th><th>Product Count</th><th></th></tr>");
 				$.each(importInfo, function(i,value){
 					var record = value.split(";");
 					$("#SiteImport").append("<tr><td>"+record[0]+"</td><td>"+record[1]+"</td></tr>");
+					
 				});
 			}
 		});
@@ -78,6 +80,7 @@ $(document).ready(function(){
 			headerKey="-1" headerValue="---Select Region---"></s:select>
 		<s:select id="Site" list="allSiteList" name="site" headerKey="-1"
 			headerValue="---Select Site--" style='display:none'></s:select>
+			
 		<br> <br>
 		<div class="siteTableData" id="SiteTable" style='display: none'
 			cellpadding="50" width="50" height="50">
@@ -96,6 +99,13 @@ $(document).ready(function(){
 
 		</table>
 	</div>
+	</p>
+	
+	<br>
+	<p>
+	<div class="attributeLinks" style='display:none'>
+	<a href="">Products</a> <a href="">Price</a> <a href="">Colors</a> <a href="">Size</a>
+	</div> 
 	</p>
 </body>
 </html>
