@@ -141,7 +141,11 @@ public class RegionAction extends ActionSupport
             SiteLog sl = iterator2.next();
             Long l = Long.parseLong(sl.getLogId());
             cal.setTimeInMillis(l);
-            String importLogs = format.format(cal.getTime()).concat(";").concat(Integer.toString(sl.getNumProds()));
+            String importLogs = format.format(cal.getTime()).concat(";").concat(Integer.toString(sl.getNumProds()))
+            		.concat(";").concat(Integer.toString(sl.getNumSale()))
+            		.concat(";").concat(Integer.toString(sl.getNumColors()))
+            		.concat(";").concat(Integer.toString(sl.getNumSizes()))
+            		.concat(";").concat(sl.getLogId());
             importList.add(importLogs);
         }       
         return SUCCESS;

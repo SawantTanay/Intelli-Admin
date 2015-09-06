@@ -33,6 +33,10 @@
 			<result type="json" name="success"></result>
 			<param name="excludeProperties">allRegionList,region</param>
 		</action>
+		
+		<action name="getProductList" class="com.intelli.action.LoadProducts">
+			<result name="success">/ProductList.jsp</result>
+		</action>
 	</package>
 
 </struts>

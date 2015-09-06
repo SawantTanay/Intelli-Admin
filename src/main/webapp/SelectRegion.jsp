@@ -54,10 +54,10 @@ $(document).ready(function(){
 				
 				var importInfo = result.importList;
 				$("#SiteImport").empty();
-				$("#SiteImport").append("<tr><th>Import Date</th><th>Product Count</th><th></th></tr>");
+				$("#SiteImport").append("<tr><th>Import Date</th><th>Num Prods</th><th>Num Prods on Sale</th><th>Num Prods With Colors</th><th>Num Prods With Sizes</th><th>Action</th></tr>");
 				$.each(importInfo, function(i,value){
 					var record = value.split(";");
-					$("#SiteImport").append("<tr><td>"+record[0]+"</td><td>"+record[1]+"</td></tr>");
+					$("#SiteImport").append("<tr><td>"+record[0]+"</td><td>"+record[1]+"</td><td>"+record[2]+"</td><td>"+record[3]+"</td><td>"+record[4]+"</td><td><a href='getProductList?entryPoint="+record[5]+"&count="+record[1]+"'>Products</a></td></tr>");
 					
 				});
 			}

@@ -28,5 +28,13 @@ public class HibernateService
         query.setString(0, param);
         return query.list();
     }
-    
+   
+    public static List getLikeList(String Namedquery,String param) {
+        Session session = HibernateUtility.buildSessionFactory();
+        session.beginTransaction();
+        System.out.println(Namedquery+"==="+param);
+        Query query = session.getNamedQuery(Namedquery);
+        query.setString(0, "%"+param);
+        return query.list();
+    }
 }
