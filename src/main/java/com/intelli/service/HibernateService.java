@@ -29,12 +29,15 @@ public class HibernateService
         return query.list();
     }
    
-    public static List getLikeList(String Namedquery,String param) {
+    public static List getLikeList(String Namedquery,String param,int pgNo,int pgSize) {
         Session session = HibernateUtility.buildSessionFactory();
         session.beginTransaction();
         System.out.println(Namedquery+"==="+param);
         Query query = session.getNamedQuery(Namedquery);
         query.setString(0, "%"+param);
+        query.setFirstResult(pgNo);
+        query.setMaxResults(pgSize);
+        System.out.println("SizeList "+query.list().size());
         return query.list();
     }
 }
