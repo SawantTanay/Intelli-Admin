@@ -34,12 +34,13 @@
 			<param name="excludeProperties">allRegionList,region</param>
 		</action>
 		
-		<action name="getProductList" class="com.intelli.action.LoadProducts">
+		<action name="getProductList" class="com.intelli.action.LoadProducts" 
+		method="fullPageList">
 			<result name="success">/ProductList.jsp</result>
 		</action>
 		
 		<action name="getPaginationList" class="com.intelli.action.LoadProducts"
-			method="getPaginationList">
+			method="paginationList">
 			<result type="json" name="success"></result>
 			<param name="excludeProperties">allRegionList,region</param>
 		</action>

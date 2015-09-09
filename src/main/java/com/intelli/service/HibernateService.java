@@ -23,7 +23,6 @@ public class HibernateService
     public static List getList(String Namedquery,String param) {
         Session session = HibernateUtility.buildSessionFactory();
         session.beginTransaction();
-        System.out.println(Namedquery+"==="+param);
         Query query = session.getNamedQuery(Namedquery);
         query.setString(0, param);
         return query.list();
@@ -34,10 +33,9 @@ public class HibernateService
         session.beginTransaction();
         System.out.println(Namedquery+"==="+param);
         Query query = session.getNamedQuery(Namedquery);
-        query.setString(0, "%"+param);
+        query.setString(0, "%-"+param);
         query.setFirstResult(pgNo);
         query.setMaxResults(pgSize);
-        System.out.println("SizeList "+query.list().size());
         return query.list();
     }
 }
