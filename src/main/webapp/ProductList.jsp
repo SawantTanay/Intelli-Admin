@@ -9,6 +9,13 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>
+	function updateAnchors(x,y) {
+		console.log(x);
+		$("#ProductPageList").val(x);
+		myfunction(x, y);
+	}
+	</script>
+	<script>
 	function myfunction(x,y){
 		$.ajax({
 			type:'POST',
@@ -33,7 +40,7 @@
 					}
 				});
 				str = str + "</tr>";
-				console.log(str);
+				//console.log(str);
 				$("#productdatatable").append(str);
 			}
 		});
@@ -48,51 +55,87 @@ $(document).ready(function() {
 	var selected_page = $("#ProductPageList").val();
 	if(selected_page == 1){
 		$(".pagination span.backNavigation").html("First · Previous ");
-		var nextPg = parseInt(selected_page) + 1;
-		$(".pagination span.frontNavigation").html("<a class='next' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+nextPg+"'>Next</a> · <a class='last' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+total_pages+"'>Last</a>");
+		$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
 	}
 	else if (selected_page == total_pages) {
 		$(".pagination span.frontNavigation").html("Next · Last ");
-		var prevPg = parseInt(selected_page) - 1;
-		$(".pagination span.backNavigation").html("<a class='first' href='getPaginationList?entryPoint="+entryPoint+"&currentPage=1'>First</a> ·  <a class='prev' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+prevPg+">Previous</a>");
+		$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
 	}
 	
-	console.log("before Function"+selected_page);
-	myfunction(selected_page,entryPoint);	
-	console.log("after Function"+selected_page);
+	console.log("Before Function...");
+	myfunction(selected_page,entryPoint);
+	console.log("After Function...");
 	
 	$("#ProductPageList").change(function() {	
 		selected_page = $("#ProductPageList").val();
 		if(selected_page == 1){
 			$(".pagination span.backNavigation").html("First · Previous ");
-			var nextPg = parseInt(selected_page) + 1;
-			$(".pagination span.frontNavigation").html("<a class='next' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+nextPg+"'>Next</a> · <a class='last' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+total_pages+"'>Last</a>");
+			$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
 		}
 		else if (selected_page == total_pages) {
 			$(".pagination span.frontNavigation").html("Next · Last ");
-			var prevPg = parseInt(selected_page) - 1;
-			$(".pagination span.backNavigation").html("<a class='first' href='getPaginationList?entryPoint="+entryPoint+"&currentPage=1'>First</a> ·  <a class='prev' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+prevPg+">Previous</a>");
+		    $(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
 		}
 		else {
-			var prevPg = parseInt(selected_page) - 1;
-			//console.log("Hellelo");
-			//console.log(prevPg);
-			$(".pagination span.backNavigation").html("<a class='first' href='getPaginationList?entryPoint="+entryPoint+"&currentPage=1'>First</a> ·  <a class='prev' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+prevPg+">Previous</a>");
-			var nextPg = parseInt(selected_page) + 1;
-			$(".pagination span.frontNavigation").html("<a class='next' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+nextPg+"'>Next</a> · <a class='last' href='getPaginationList?entryPoint="+entryPoint+"&currentPage="+total_pages+"'>Last</a>");
+			$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
+			$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
 		}
-		myfunction(selected_page,entryPoint);
-		
+		myfunction(selected_page, entryPoint);
 	});
+	
+	$(".pagination span.backNavigation").on("click","a",function(e){
+		var elem = $(this);
+		if(elem.is("[id^='prev']")) {
+			var current_Page = $("#ProductPageList").val();
+			current_Page = parseInt(current_Page)-1;
+			myfunction(current_Page, entryPoint);
+			$("#ProductPageList").val(current_Page);
+			if(current_Page == 1) {
+				$(".pagination span.backNavigation").html("First · Previous ");
+				$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
+			}
+			else {
+				$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
+			}
+		}
+		else if(elem.is("[id^='first']")) {
+			myfunction(1, entryPoint);
+			$("#ProductPageList").val(1);
+			$(".pagination span.backNavigation").html("First · Previous ");
+			$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
+		}
+	});
+	
+	$(".pagination span.frontNavigation").on("click","a",function() {
+		var elem = $(this);
+		if(elem.is("[id^='next']")){
+			var current_Page = $("#ProductPageList").val();
+			current_Page = parseInt(current_Page)+1;
+			myfunction(current_Page, entryPoint);
+			$("#ProductPageList").val(current_Page);
+			if(current_Page== total_pages){
+				$(".pagination span.frontNavigation").html("Next · Last ");
+			}
+			else {
+				$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
+			}
+		}
+		else if(elem.is("[id='last']")) {
+			myfunction(total_pages, entryPoint);
+			$("#ProductPageList").val(total_pages);
+			$(".pagination span.frontNavigation").html("Next · Last ");
+		}
+	});
+	
+
 });
 
-</script>
-</head>
+</script></head>
 <body>
 <div id="EntryPoint" style="display:none"><s:property value="entryPoint"/></div>
 <div class="pagination">
 « <span class="backNavigation"> </span>· Page 
-<s:select list="pageList" id="ProductPageList" name="pgno"/> of <span class="total_pages"></span> · <span class="frontNavigation"> </span>»
+<s:select list="pageList" id="ProductPageList" name="pgno"/> of <span class="total_pages"></span> · <span class="frontNavigation"> </span> »
 </div>
 
 <br/>
