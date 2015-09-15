@@ -9,6 +9,13 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>
+	function updateAnchors(x,y) {
+		console.log(x);
+		$("#ProductPageList").val(x);
+		myfunction(x, y);
+	}
+	</script>
+	<script>
 	function myfunction(x,y){
 		$.ajax({
 			type:'POST',
@@ -33,7 +40,7 @@
 					}
 				});
 				str = str + "</tr>";
-				console.log(str);
+				//console.log(str);
 				$("#productdatatable").append(str);
 			}
 		});
@@ -48,13 +55,11 @@ $(document).ready(function() {
 	var selected_page = $("#ProductPageList").val();
 	if(selected_page == 1){
 		$(".pagination span.backNavigation").html("First · Previous ");
-		var nextPg = parseInt(selected_page) + 1;
-		$(".pagination span.frontNavigation").html("<a class='next' href='#' onclick='myfunction("+nextPg+","+entryPoint+")'>Next</a> · <a class='last' href='#' onclick='myfunction("+total_pages+","+entryPoint+")'>Last</a>");
+		$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
 	}
 	else if (selected_page == total_pages) {
 		$(".pagination span.frontNavigation").html("Next · Last ");
-		var prevPg = parseInt(selected_page) - 1;
-		$(".pagination span.backNavigation").html("<a class='first' href='#' onclick='myfunction(1,"+entryPoint+")'>First</a> ·  <a class='prev' href='#' onclick='myfunction("+prevPg+","+entryPoint+")'>Previous</a>");
+		$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
 	}
 	
 	console.log("Before Function...");
@@ -65,22 +70,64 @@ $(document).ready(function() {
 		selected_page = $("#ProductPageList").val();
 		if(selected_page == 1){
 			$(".pagination span.backNavigation").html("First · Previous ");
-			var nextPg = parseInt(selected_page) + 1;
-			$(".pagination span.frontNavigation").html("<a class='next' href='#' onclick='myfunction("+nextPg+","+entryPoint+")'>Next</a> · <a class='last' href='#' onclick='myfunction("+total_pages+","+entryPoint+")'>Last</a>");
+			$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
 		}
 		else if (selected_page == total_pages) {
 			$(".pagination span.frontNavigation").html("Next · Last ");
-			var prevPg = parseInt(selected_page) - 1;
-		    $(".pagination span.backNavigation").html("<a class='first' href='#' onclick='myfunction(1,"+entryPoint+")'>First</a> ·  <a class='prev' href='#' onclick='myfunction("+prevPg+","+entryPoint+")'>Previous</a>");
+		    $(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
 		}
 		else {
-			var prevPg = parseInt(selected_page) - 1;
-			var nextPg = parseInt(selected_page) + 1;
-			$(".pagination span.backNavigation").html("<a class='first' href='#' onclick='myfunction(1,"+entryPoint+")'>First</a> ·  <a class='prev' href='#' onclick='myfunction("+prevPg+","+entryPoint+")'>Previous</a>");
-			$(".pagination span.frontNavigation").html("<a class='next' href='#' onclick='myfunction("+nextPg+","+entryPoint+")'>Next</a> · <a class='last' href='#' onclick='myfunction("+total_pages+","+entryPoint+")'>Last</a>");
+			$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
+			$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
+		}
+		myfunction(selected_page, entryPoint);
+	});
+	
+	$(".pagination span.backNavigation").on("click","a",function(e){
+		var elem = $(this);
+		if(elem.is("[id^='prev']")) {
+			var current_Page = $("#ProductPageList").val();
+			current_Page = parseInt(current_Page)-1;
+			myfunction(current_Page, entryPoint);
+			$("#ProductPageList").val(current_Page);
+			if(current_Page == 1) {
+				$(".pagination span.backNavigation").html("First · Previous ");
+				$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
+			}
+			else {
+				$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
+			}
+		}
+		else if(elem.is("[id^='first']")) {
+			myfunction(1, entryPoint);
+			$("#ProductPageList").val(1);
+			$(".pagination span.backNavigation").html("First · Previous ");
+			$(".pagination span.frontNavigation").html("<a id='next' href='#'>Next</a> · <a id='last' href='#'>Last</a>");
 		}
 	});
 	
+	$(".pagination span.frontNavigation").on("click","a",function() {
+		var elem = $(this);
+		if(elem.is("[id^='next']")){
+			var current_Page = $("#ProductPageList").val();
+			current_Page = parseInt(current_Page)+1;
+			myfunction(current_Page, entryPoint);
+			$("#ProductPageList").val(current_Page);
+			if(current_Page== total_pages){
+				$(".pagination span.frontNavigation").html("Next · Last ");
+			}
+			else {
+				$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
+			}
+		}
+		else if(elem.is("[id='last']")) {
+			myfunction(total_pages, entryPoint);
+			$("#ProductPageList").val(total_pages);
+			$(".pagination span.frontNavigation").html("Next · Last ");
+		}
+	});
+	
+
 });
 
 </script></head>
@@ -88,7 +135,7 @@ $(document).ready(function() {
 <div id="EntryPoint" style="display:none"><s:property value="entryPoint"/></div>
 <div class="pagination">
 « <span class="backNavigation"> </span>· Page 
-<s:select list="pageList" id="ProductPageList" name="pgno"/> of <span class="total_pages"></span> · <span class="frontNavigation"> </span>»
+<s:select list="pageList" id="ProductPageList" name="pgno"/> of <span class="total_pages"></span> · <span class="frontNavigation"> </span> »
 </div>
 
 <br/>
@@ -96,7 +143,7 @@ $(document).ready(function() {
 <br/>
 
 <div id="ProductData">
-<table id="productdatatable" border="1">
+<table id="productdatatable" border="1" height="100%" width="100%">
 
 </table>
 </div>

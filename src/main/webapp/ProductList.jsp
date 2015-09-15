@@ -9,13 +9,6 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>
-	function updateAnchors(x,y) {
-		console.log(x);
-		$("#ProductPageList").val(x);
-		myfunction(x, y);
-	}
-	</script>
-	<script>
 	function myfunction(x,y){
 		$.ajax({
 			type:'POST',
@@ -62,9 +55,9 @@ $(document).ready(function() {
 		$(".pagination span.backNavigation").html("<a id='first' href='#'>First</a> ·  <a id='prev' href='#'>Previous</a>");
 	}
 	
-	console.log("Before Function...");
+	$("#model").show();
 	myfunction(selected_page,entryPoint);
-	console.log("After Function...");
+	$("#model").hide();
 	
 	$("#ProductPageList").change(function() {	
 		selected_page = $("#ProductPageList").val();
@@ -126,11 +119,33 @@ $(document).ready(function() {
 			$(".pagination span.frontNavigation").html("Next · Last ");
 		}
 	});
-	
 
+	$(document).ajaxStart(function() {
+		$("#model").show();
+	});
+	$(document).ajaxStop(function() {
+		$("#model").hide();
+	});
+	
 });
 
-</script></head>
+</script>
+<style type="text/css">
+#model {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px; /* half width of the spinner gif */
+    margin-top: -50px; /* half height of the spinner gif */
+    backgruond-color : rgba(0,0,0,0.8);
+    text-align:center;
+    z-index:1234;
+    overflow: auto;
+    width: 100px; /* width of the spinner gif */
+    height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
+}
+</style>
+</head>
 <body>
 <div id="EntryPoint" style="display:none"><s:property value="entryPoint"/></div>
 <div class="pagination">
@@ -143,9 +158,12 @@ $(document).ready(function() {
 <br/>
 
 <div id="ProductData">
-<table id="productdatatable" border="1">
+<table id="productdatatable" border="1" height="100%" width="100%">
 
 </table>
+</div>
+<div class="model" id="model" style="display:none">
+<img src="ajax-loader.gif" alt="Loading"/>
 </div>
 </body>
 </html>
